@@ -9,12 +9,19 @@ Skin Lesion Detection and Segmentation of Medical Images.
 The main aim of the project is to build a pipeline taking a skin lesion image and returning the most efficient mask of the lesion using segmentation methods. It also includes parts of pre and post processing in order to generate the most efficient mask of the lesion. 
 
 ## Roadmap
-26/09/24 : First meeting with our supervisor M. Pietro Gori. He explained the project to us, the objectives and presented the different resources available. 
+26/09/24 : First meeting with our supervisor M. Pietro Gori. He explained the project to us, the goals and presented the different resources available. 
 For next meeting : reading the papers and coming up with a roadmap to organize as well as possible the work, dividing task. 
 
-For the papers lecture : Louis read the pre-processing paper "Shading Attenuation in Human Skin Color Images""Border DEtection in dermoscopy images using statistical region merging", and "Dermoscopic skin lesion image segmentation based on Local Binary Pattern Clustering : Comparative Study". Furthermore, Louis had an overlook view of the other papers. 
+Papers reading : Louis read the pre-processing paper "Shading Attenuation in Human Skin Color Images""Border DEtection in dermoscopy images using statistical region merging", and "Dermoscopic skin lesion image segmentation based on Local Binary Pattern Clustering : Comparative Study". Furthermore, Louis had an overlook view of the other papers. 
 
-03/10/24 : 
+03/10/24 : Choice of the implementation strategy. Questions on the articles. 
+
+17/09/24 : goal = finalizing the pre-processing in order to then start the segmentation part itself. 
+WOrk divide between the bith of us : 
+- shading attenuation for Louis
+- Hair removal for Maëliss
+- Black removal for both of us
+
 ## Visuals
 Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
