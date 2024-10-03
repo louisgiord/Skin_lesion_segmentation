@@ -17,8 +17,8 @@ Papers reading : Louis read the pre-processing paper "Shading Attenuation in Hum
 03/10/24 : Choice of the implementation strategy. Questions on the articles. 
 
 17/09/24 : goal = finalizing the pre-processing in order to then start the segmentation part itself. 
-WOrk divide between the bith of us : 
-- shading attenuation for Louis
+Work divided between the both of us : 
+- Shading attenuation for Louis
 - Hair removal for Maëliss
 - Black removal for both of us
 
