@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 N = 256 #number of gray levels
 
 # Load the image
-img=cv2.imread ("im_test1.jpg")
+img=cv2.imread ("images_test/im_test1.jpg")
 
 #Transform the image to gray scale
 img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
