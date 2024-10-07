@@ -9,15 +9,18 @@ from matplotlib import pyplot as plt
 N = 256 #number of gray levels
 
 # Load the image
-img=cv2.imread ("images_test/im_test1.jpg")
+img=cv2.imread ("images_test/im_test3.jpg")
 
 #Transform the image to gray scale
 img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 #display images 
-def viewimage(img):
+def viewimages(img1, img2):
     cv2.namedWindow('Display', cv2.WINDOW_NORMAL)
-    cv2.imshow('Display', img)
+    if img1.shape != img2.shape:
+        img2 = cv2.resize(img2, (img1.shape[1], img1.shape[0]))
+    img_conc = np.hstack((img1, img2))
+    cv2.imshow('Image in grey levels and its mask', img_conc)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
@@ -81,10 +84,12 @@ def otsu(img):
             tresh = i
     return tresh
 
-#test the algorithm
-tresh = otsu(img_gray)
-print(f"Optimal threshold: {tresh}")
 
-#apply the threshold to the image
-ret,thresh1 = cv2.threshold(img_gray,tresh,255,cv2.THRESH_BINARY)
-viewimage(thresh1)
+#test the algorithm
+if __name__ == "__main__":
+    tresh = otsu(img_gray)
+    print(f"Optimal threshold: {tresh}")
+
+    #apply the threshold to the image
+    ret,thresh1 = cv2.threshold(img_gray,tresh,255,cv2.THRESH_BINARY)
+    viewimages(thresh1, img_gray)
