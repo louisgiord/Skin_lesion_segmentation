@@ -16,6 +16,8 @@ Papers reading : Louis read the pre-processing paper "Shading Attenuation in Hum
 
 03/10/24 : Choice of the implementation strategy. Questions on the articles. 
 Le choix s'est porté sur une première implémentation de la méthode d'Otsu (Louis) et du Dull Razor comme hair remover pour Maëliss.
+Implémentation du Dull Razor décalée après la séance du 21/10, car le cours sur les noyaux morphologiques n'a pas encore été vu.
+Etude du choix de l'espace couleur.
 
 17/09/24 : goal = finalizing the pre-processing in order to then start the segmentation part itself. 
 Work divided between the both of us : 
