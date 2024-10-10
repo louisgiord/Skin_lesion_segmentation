@@ -14,13 +14,20 @@ img=cv2.imread ("images_test/im_test3.jpg")
 #Transform the image to gray scale
 img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-#display images 
-def viewimages(img1, img2):
+#display 2 images with the same number of canals for comparison
+def view2images(img1, img2):
     cv2.namedWindow('Display', cv2.WINDOW_NORMAL)
     if img1.shape != img2.shape:
         img2 = cv2.resize(img2, (img1.shape[1], img1.shape[0]))
     img_conc = np.hstack((img1, img2))
-    cv2.imshow('Image in grey levels and its mask', img_conc)
+    cv2.imshow('Comparison of images', img_conc)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+#display a single image
+def viewimage(img):
+    cv2.namedWindow('Display', cv2.WINDOW_NORMAL)
+    cv2.imshow('Display', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
@@ -92,4 +99,4 @@ if __name__ == "__main__":
 
     #apply the threshold to the image
     ret,thresh1 = cv2.threshold(img_gray,tresh,255,cv2.THRESH_BINARY)
-    viewimages(thresh1, img_gray)
+    view2images(thresh1, img_gray)
