@@ -19,48 +19,12 @@ Le choix s'est porté sur une première implémentation de la méthode d'Otsu (L
 Implémentation du Dull Razor décalée après la séance du 21/10, car le cours sur les noyaux morphologiques n'a pas encore été vu.
 Etude du choix de l'espace couleur.
 
+10/10/24 : Otsu method is functionning. Next goal is to implement fully the pre-processing, especially the hair removal and the black frame removal. 
+For morphologic maths, we can start to read the course that has not yet be done. For black frame removal, remove all the black columns and lines of the image (meaning erasing them from the original image), then using method of region merging starting with 4 sets of pixels in the four corners of the image (i.e if their is a black lense in the image)
+Furthermore, compute the DICE score to start comparing our results with the ground-truth masks, by having a qualitative and quantitative analysis of the pipeline. Use the ablation study method in order to understand how the different blocks( preprocessing, segmentation algorithm, and post-processing) improve or not the DICE score. 
+
 17/09/24 : goal = finalizing the pre-processing in order to then start the segmentation part itself. 
 Work divided between the both of us : 
-- Shading attenuation for Louis
+- Black removal (and if enough time finishing shading attenuation) for Louis
 - Hair removal for Maëliss
-- Black removal for both of us
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.telecom-paris.fr/Student_Proects/4im01-skinlesions-giordmainabonniniere.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.telecom-paris.fr/Student_Proects/4im01-skinlesions-giordmainabonniniere/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)

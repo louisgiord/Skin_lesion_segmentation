@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 N = 256 #number of gray levels
 
 # Load the image
-img=cv2.imread ("images_test/im_test3.jpg")
+img=cv2.imread ("images_test/im_test2.jpg")
 
 #Transform the image to gray scale
 img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -98,5 +98,5 @@ if __name__ == "__main__":
     print(f"Optimal threshold: {tresh}")
 
     #apply the threshold to the image
-    ret,thresh1 = cv2.threshold(img_gray,tresh,255,cv2.THRESH_BINARY)
+    ret,thresh1 = cv2.threshold(img_gray,tresh,255,cv2.THRESH_BINARY_INV)
     view2images(thresh1, img_gray)

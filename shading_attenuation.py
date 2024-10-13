@@ -57,7 +57,7 @@ def val_tilde(param):
 #new_val = val_tilde(result.x)    
 
 #im_tilde_hsv = np.dstack((hue, sat, new_valval))
-im_tilde_rgb = cv2.cvtColor(img_hsv, cv2.COLOR_HSV2BRG)
+im_tilde_rgb = cv2.cvtColor(img_hsv, cv2.COLOR_HSV2BGR)
 
 #view2images(img_hsv, im_tilde_hsv)
 view2images(img_rgb, im_tilde_rgb)
