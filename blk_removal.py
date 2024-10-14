@@ -1,57 +1,133 @@
 import numpy as np 
 import  cv2
 import matplotlib
-from otsu_seg import viewimage
+from otsu_seg import viewimage, view2images
+
+# Load the image
+img=cv2.imread ("images_test/img1.jpg")
+
+#Check is the image is correctly charged
+if img is None:
+    raise FileNotFoundError("image not found")
+
+#Transform the image to gray scale
+img_gray= cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+#test if the columns are only black pixels
+
+def test_black_column(img,blk_tresh):
+    Ly = img.shape[0] #number of lines
+    Lx = img.shape[1] #number of columns
+    column_index =[]
+    i = 0
+    m = 1
+    while i < Lx and m == 1 :
+        test = []
+        for j in range(Ly):
+            if img[j,i] < blk_tresh:
+                test.append(1)
+            else:
+                test.append(0)
+        m = np.mean(test)
+        if m == 1:
+            column_index.append(i)
+        i += 1   
+    return column_index
+
+def test_black_column_rverse(img,blk_tresh):
+    Ly=img.shape[0] #number of lines
+    Lx=img.shape[1] #number of columns
+    column_index=[]
+    i = Lx - 1
+    m = 1 
+    while i > 0 and m == 1 : 
+        test = []
+        for j in range (Ly):
+            if img[j,i] < blk_tresh:
+                test.append(1)
+            else:
+                test.append(0)
+        m = np.mean(test)
+        if m == 1:
+            column_index.append(i)
+        i -= 1
+    return column_index
+
+
+def blk_column_index(img,blk_tresh):
+    return test_black_column(img,blk_tresh) + test_black_column_rverse(img,blk_tresh)
+
+def test_black_line(img,blk_tresh):
+    Ly = img.shape[0]
+    Lx = img.shape[1]
+    line_index = []
+    j = 0 
+    m = 1
+    while j < Ly and m == 1:
+        test = []
+        for i in range (Lx):
+            if img[j,i] < blk_tresh:
+                test.append(1)
+            else:
+                test.append(0)
+        m = np.mean(test)
+        if m == 1:
+            line_index.append(j)
+        j += 1
+    return line_index
+
+def test_black_line_rverse(img,blk_tresh):
+    Ly = img.shape[0]
+    Lx = img.shape[1]
+    line_index = []
+    j = Ly - 1
+    m = 1
+    while j > 0 and m == 1:
+        test = []
+        for i in range (Lx):
+            if img[j,i] < blk_tresh:
+                test.append(1)
+            else: 
+                test.append(0)
+        m = np.mean(test)
+        if m == 1:
+            line_index.append(j)
+        j -= 1
+    return line_index
+
+def blk_line_index(img,blk_tresh):
+    return test_black_line(img,blk_tresh)+test_black_line_rverse(img, blk_tresh)
 
 #parameters
 
-l = 5 # width of the set 5 pixels
-S=[0,l]
+T = 30
 
-# Load the image
-img=cv2.imread ("images_test/im_test3.jpg")
+#viewimage(img_gray)
+#viewimage(img)
+#view2images(img, img_gray) pb of size between the two images
 
-#Transform the image to gray scale
-img= cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-print(img.shape[0]/float(4),img.shape[1]/float(4))
+# generate an image with a black column in the middle and elsewhere white pixels
+im_black = np.zeros(img_gray.shape)
+im_black[:,:] = 255
+im_black[:600,] = 0
+viewimage(im_black)
 
-#Means of a set of pixel
+index_col = blk_column_index(im_black, T)
+index_line = blk_line_index(im_black, T)
+print("index of lines full of black",index_col)
+print("index of columns full of black",index_line)
 
-def means_set(S,img,x,y):
-    m=0
-    N=S[0]*S[1]
-    for i in range (x,x+1+S[0]):
-        for j in range (y,y+1+S[1]):
-            m+= img[j,i]
-    return m/N
+im_modif = np.delete(im_black,index_line, axis = 0)
+viewimage(im_modif)
 
-def remove_column (img,lenght,S,x,y):
-    Ly = img.shape[0]
-    Lx = img.shape[1]
-    S[0]= lenght
-    ratio = 1
-    mean_optimal = 0
-    i_optimal = 0   
-    while ratio > 0.5:
-        for i in range(0,int(Lx/2),S[1]):
-            black_column = []
-            mean_column = []
-            for j in range (0,int(Ly),lenght):
-                mean_local = means_set(S,img,x,j)
-                if mean_local < 25 :
-                    black_column.append(1)
-                mean_column.append(mean_local)
-            s = np.sum(black_column)
-            ratio = s/(Ly/float(lenght))
-            mean_optimal = np.mean(mean_column)
-            i_optimal = i
-    for i in range(i_optimal*S[1]):
-            for j in range(0,Ly):
-                img[j,i] = mean_optimal
-    return img  
-        
+#im_black = np.zeros(img_gray.shape)
+#viewimage(im_black)
 
-viewimage(remove_column(img,4,S,0,0))
+
+
+
+
+
 
 
 
