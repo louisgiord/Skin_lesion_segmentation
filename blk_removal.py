@@ -160,7 +160,7 @@ end_index = 200 - border_size
 # Remplissage du carré blanc au milieu
 im_black[start_index:end_index, start_index:end_index] = 255
 
-viewimage(im_black)
+#viewimage(im_black)
 
 #definition of a pixel set.
 
@@ -244,8 +244,27 @@ def region_growing(x,y, L, img, tau):
 
         return coordinates     
     else:
-        print("No black frame in the picture")
+        print("No black frame  in the picture")
+        return False
 
+def Remove(img,tau,l,x,y):
+    Ly = img.shape[0]
+    Lx = img.shape[1]
+    setting_blk_corner1 = region_growing(x,y,l,img,tau)
+    setting_blk_corner2 = region_growing(Lx-x,y,l, img,tau)
+    setting_blk_corner3 = region_growing(x,Ly-y,l, img,tau)
+    setting_blk_corner4 = region_growing(Lx-x,Ly-y,l, img,tau)
+    if not (setting_blk_corner1 and setting_blk_corner2 and setting_blk_corner3 and setting_blk_corner4):
+        return img
+    setting_blk = setting_blk_corner1 + setting_blk_corner2 + setting_blk_corner3 + setting_blk_corner4
+    for p in setting_blk:
+        img[p[0],p[1]]= 255
+    return img
+
+#new_im_black = Remove(im_black,20,5,10,10)
+#viewimage(new_im_black)
+
+"""
 setting = region_growing(10,10,5,im_black,20)
 
 for p in setting:
@@ -274,6 +293,6 @@ for p in setting_blk:
 viewimage(img_gray)
 
 
-
+"""
 
 
