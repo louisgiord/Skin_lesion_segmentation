@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 #%% Charger l'image - changer le path sur le git
 
-image_bgr=cv2.imread('ISIC_0000042.jpg',cv2.IMREAD_COLOR)
+image_bgr=cv2.imread('images_test/img19.jpg',cv2.IMREAD_COLOR)
 image = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)  # Conversion BGR vers RGB
 #%% split en couleurs 
 image_red, image_green, image_blue = cv2.split(image)
