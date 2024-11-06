@@ -1,18 +1,19 @@
 #%% bibliothèques
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 
 #%% Charger l'image - changer le path sur le git
 
-image_bgr=cv2.imread('skin_lesion_dataset/melanoma/ISIC_0000146.jpg',cv2.IMREAD_COLOR)
+image_bgr=cv2.imread('ISIC_0000042.jpg',cv2.IMREAD_COLOR)
 image = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)  # Conversion BGR vers RGB
 #%% split en couleurs 
 image_red, image_green, image_blue = cv2.split(image)
 
-#%% Définir les éléments structurants
-kernel_horizontal = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 5))
-kernel_diagonal = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
-kernel_vertical = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 1))
+#%% Définir les éléments structurants - on peut changer les valeurs pour avoir un meilleur résultat
+kernel_horizontal = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 15))
+kernel_diagonal = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
+kernel_vertical = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 1))
 
 #%% Appliquer une opération de fermeture morphologique générale à chaque bande de couleur
 def morphological_closing(image, kernel):
@@ -51,4 +52,24 @@ cv2.imshow('Inpainted Image', inpainted_image)
 cv2.imshow('Smoothed Image', smoothed_image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+#%% en pyplot
+import matplotlib.pyplot as plt
+plt.figure(figsize=(12, 12))
+plt.subplot(221)
+plt.imshow(image_bgr)
+plt.title('Original Image')
+
+plt.subplot(222)
+plt.imshow(hair_mask * 255, cmap='gray')
+plt.title('Hair Mask')
+
+plt.subplot(223)
+plt.imshow(inpainted_image)
+plt.title('Inpainted Image')
+
+plt.subplot(224)
+plt.imshow(smoothed_image)
+plt.title('Smoothed Image')
+
+plt.show()
 # %%
