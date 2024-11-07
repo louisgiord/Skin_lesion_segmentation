@@ -1,0 +1,147 @@
+#%% bibliothèques
+import cv2
+import numpy as np
+import skimage
+from skimage import color
+from matplotlib import pyplot as plt
+
+# Parameters
+N = 256  # Number of gray levels
+
+#%% Load the image
+img = cv2.imread("img1.jpg")
+
+# Transform the image to gray scale
+img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Display 2 images with the same number of canals for comparison
+def view2images(img1, img2):
+    cv2.namedWindow('Display', cv2.WINDOW_NORMAL)
+    if img1.shape != img2.shape:
+        img2 = cv2.resize(img2, (img1.shape[1], img1.shape[0]))
+    img_conc = np.hstack((img1, img2))
+    cv2.imshow('Comparison of images', img_conc)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+# Display a single image
+def viewimage(img):
+    cv2.namedWindow('Display', cv2.WINDOW_NORMAL)
+    cv2.imshow('Display', img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def plot_norm_hist(img):
+    hist = cv2.calcHist([img], [0], None, [N], [0, N])
+    plt.plot(hist, color='gray')
+    plt.xlabel('intensity')
+    plt.ylabel('number of pixels')
+    plt.show()
+
+def prob_gray_lvl(img):
+    data_level = np.zeros(N)  # Array with number of pixel corresponding to each gray level
+    num_pixels = img.shape[0] * img.shape[1]  # Total number of pixels
+    hist = cv2.calcHist([img], [0], None, [N], [0, N])  # Histogram
+    for i in range(N):
+        data_level[i] = hist[i][0]
+    proba_level = data_level / num_pixels
+    return proba_level
+
+# Compute the probability of occurrence C0, going to the gray level of value t, and of C1
+def proba_class_thresh(img, t):
+    proba_level = prob_gray_lvl(img)
+    # Threshold is the gray level that separates the two classes
+    p = np.sum(proba_level[:t])
+    q = np.sum(proba_level[t:])
+    return p, q
+
+def mean_class_thresh(img, t):
+    mean = 0
+    proba_level = prob_gray_lvl(img)
+    for i in range(1, t + 1):
+        mean += i * proba_level[i - 1]
+    return mean
+
+def mean_C0(img, t):
+    w = proba_class_thresh(img, t)[0]
+    mu = mean_class_thresh(img, t)
+    return mu / w if w != 0 else 0
+
+def mean_C1(img, t):
+    mu = mean_class_thresh(img, N) - mean_class_thresh(img, t)
+    w = proba_class_thresh(img, t)[1]
+    return mu / w if w != 0 else 0
+
+def var_between_class(img, t):
+    w0, w1 = proba_class_thresh(img, t)
+    mu0 = mean_C0(img, t)
+    mu1 = mean_C1(img, t)
+    return w0 * w1 * (mu0 - mu1) ** 2
+
+# The final goal of the algorithm is to find the threshold that maximizes the between class variance
+def otsu(img):
+    var_max = 0
+    tresh = 0
+    for i in range(N):
+        var = var_between_class(img, i)
+        if var > var_max:
+            var_max = var
+            tresh = i
+    return tresh
+
+#%% Debut Zortea 
+eta = 1/4
+img = cv2.imread("img1.jpg")
+L = max(img.shape[:2]) # Maximum dimension of the image
+s = 0.02 * L #taille étape
+
+# Convert the image to the CIELAB color space
+img_lab = color.rgb2lab(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+#idée : on va se déplacer sur l'image avec des rectanges de taille s, calculer ecart type et moyenne 
+#jusqu'à eta de la distance du plus petit côté de l'image
+# Select the skin region avec somme ratio ecart type/ moyenne minimal
+def select_skin_region_init(img_gray):
+    return img_gray[50:150, 50:150]
+"""
+def select_skin_region(img, s=0.02, eta=1/4):
+    h, w = img.shape[:2]
+    s_size = int(s * max(h, w))
+    center_x, center_y = w // 2, h // 2
+    min_ratio = float('inf')
+    best_region = None
+    
+    for i in range(0, min(center_x, center_y), 5):
+        x1, y1 = center_x - i, center_y - i
+        x2, y2 = center_x + i, center_y + i
+        region = img[y1:y2, x1:x2]
+        mean = np.mean(region)
+        ecart_type = np.std(region)
+        ratio = ecart_type / mean
+        if ratio < min_ratio:
+            min_ratio = ratio
+            best_region = region
+    
+    return best_region"""
+def select_skin_region_bis(img, s=0.02, eta=1/4):
+    h, w = img.shape[:2]
+    s_size = int(s * max(h, w))
+    center_img_x, center_img_y = w//2, h//2
+    min_ratio = float('inf')
+    best_region = None
+#on itère sur les rectangles de taille s contenus dans les bordures de l'images à eta du plus petit côté
+    for i in range(np.floor(eta*min(center_img_x, center_img_y)*0.02)):
+        for j in range(np.floor(eta*min(center_img_x, center_img_y)*0.02)):
+            region = img[i*s_size:(i+1)*s_size, j*s_size:(j+1)*s_size]
+            mean_0 = np.mean(region[0])
+            mean_1 = np.mean(region[1])
+            mean_2 = np.mean(region[2])
+            ecart_type_0 = np.std(region[0])
+            ecart_type_1 = np.std(region[1])
+            ecart_type_2 = np.std(region[2])
+            ratio = sum([ecart_type_0/mean_0, ecart_type_1/mean_1, ecart_type_2/mean_2])
+            if ratio < min_ratio:
+                min_ratio = ratio
+                best_region = region
+    return best_region
+
+# %%
