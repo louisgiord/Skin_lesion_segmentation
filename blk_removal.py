@@ -1,18 +1,7 @@
 from collections import deque
 import numpy as np 
-import  cv2
-import matplotlib
-from otsu_seg import viewimage, view2images
-
-# Load the image
-img=cv2.imread ("images_test/img1.jpg")
-
-#Check is the image is correctly charged
-if img is None:
-    raise FileNotFoundError("image not found")
-
-#Transform the image to gray scale
-img_gray= cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+from display_image import viewimage
+import cv2
 
 #test if the columns are only black pixels
 
@@ -99,68 +88,6 @@ def test_black_line_rverse(img,blk_tresh):
 def blk_line_index(img,blk_tresh):
     return test_black_line(img,blk_tresh)+test_black_line_rverse(img, blk_tresh)
 
-#parameters
-
-T = 30
-
-#viewimage(img_gray)
-#viewimage(img)
-#view2images(img, img_gray) pb of size between the two images
-
-# generate an image with a black column in the middle and elsewhere white pixels
-im_black = np.zeros((200,200))
-def region_growing(l, L, img, tau):
-    S = ALLsets_black_test(l, L, img, tau)
-    Ly, Lx = img.shape
-    mark = set()  # Utilisation d'un set pour le marquage
-    waiting = deque()  # Utilisation de deque pour waiting
-    coordinates = []
-
-    if S[0]:
-        waiting.extend(S[1])  # Création d'une copie indépendante de S[1]
-        coordinates.extend(S[1])
-        
-        for p in S[1]:
-            mark.add((p[0], p[1]))
-
-        count = 0
-        while waiting and count < 100000:
-            tup = waiting.popleft()  # Retire le premier élément efficacement
-            print("LISTE ATTENTE DEBUT BOUCLE", list(waiting))
-            i, j = tup  # Déballage pour plus de clarté
-            print("pixel en cours de visite", j, ":", i)
-
-            # Vérification des voisins
-            voisins = [(j + 1, i), (j - 1, i), (j, i + 1), (j, i - 1),
-                       (j + 1, i + 1), (j + 1, i - 1), (j - 1, i - 1), (j - 1, i + 1)]
-            for J, I in voisins:
-                if 0 <= I < Lx and 0 <= J < Ly:
-                    if img[J, I] < tau and (J, I) not in mark:
-                        mark.add((J, I))
-                        waiting.append((J, I))
-                        coordinates.append((J, I))
-                        print(f"Ajouté à waiting: ({J}, {I})")
-                        print(f"Ajouté à coordinates: ({J}, {I})")
-
-        return coordinates     
-    else:
-        print("No black frame in the picture")
-
-
-# Création d'une image noire de 200x200 pixels
-im_black = np.zeros((200, 200))
-
-# Définition des dimensions de la bordure noire
-border_size = 70
-
-# Définition des indices pour le carré blanc au milieu
-start_index = border_size
-end_index = 200 - border_size
-
-# Remplissage du carré blanc au milieu
-im_black[start_index:end_index, start_index:end_index] = 255
-
-#viewimage(im_black)
 
 #definition of a pixel set.
 
@@ -169,8 +96,9 @@ def create_set(x,y,L,img) :
     coordinates = []
     for i in range (L):
         for j in range (L):
-            s[j,i]=img[y+j,x+i]
-            coordinates.append((y+j, x+i))
+            if 0<=j+y<img.shape[0] and 0<=i+x<img.shape[1]:
+                s[j,i]=img[j+y,i+x]
+                coordinates.append((y+j, x+i))
     return s, coordinates
 
 def set_black(x,y,L,img,tau):
@@ -191,17 +119,6 @@ def set_black(x,y,L,img,tau):
         return False, coordinates
 
 
-#function verifying if the corners of the image are black
-
-def ALLsets_black_test(l,L,img,tau):
-    Ly = img.shape[0]
-    Lx = img.shape[1]
-    set1_test = set_black(l,l,L,img,tau)
-    #set4_test = set_black(Lx-1-l,Ly-1-l,L,img,tau)
-    test = set1_test[0] #and set3_test[0] and set2_test[0] and set4_test[0]
-    coordinates = set1_test[1] #+ set3_test[1] + set2_test[1] + set4_test[1]
-    return test, coordinates
-
 def get_coordinates_black_pixel(x,y,img,tau):
     if img[y,x] < tau : 
         return [y,x]
@@ -215,20 +132,20 @@ def region_growing(x,y, L, img, tau):
     mark = set()  # Utilisation d'un set pour le marquage
     waiting = deque()  # Utilisation de deque pour waiting
     coordinates = []
-
+    #print("size of S", len(S[1]))
     if S[0]:
         waiting.extend(S[1])  # Création d'une copie indépendante de S[1]
         coordinates.extend(S[1])
-        
+        #print("size of waiting", len(waiting))
+        #print("size of coordinates", len(coordinates))
         for p in S[1]:
             mark.add((p[0], p[1]))
-
         count = 0
         while waiting and count < 100000:
             tup = waiting.popleft()  # Retire le premier élément efficacement
-            print("LISTE ATTENTE DEBUT BOUCLE", list(waiting))
-            i, j = tup  # Déballage pour plus de clarté
-            print("pixel en cours de visite", j, ":", i)
+            #print("LISTE ATTENTE DEBUT BOUCLE", list(waiting))
+            j, i = tup  # Déballage pour plus de clarté
+            #print("pixel en cours de visite", j, ":", i)
 
             # Vérification des voisins
             voisins = [(j + 1, i), (j - 1, i), (j, i + 1), (j, i - 1),
@@ -239,60 +156,43 @@ def region_growing(x,y, L, img, tau):
                         mark.add((J, I))
                         waiting.append((J, I))
                         coordinates.append((J, I))
-                        print(f"Ajouté à waiting: ({J}, {I})")
-                        print(f"Ajouté à coordinates: ({J}, {I})")
+                        #print(f"Ajouté à waiting: ({J}, {I})")
+                        #print(f"Ajouté à coordinates: ({J}, {I})")
 
         return coordinates     
     else:
         print("No black frame  in the picture")
         return False
 
+def mask_remove(img,tau,l,x,y):
+    Ly = img.shape[0]
+    Lx = img.shape[1]
+    mask = np.ones_like(img,dtype=np.uint8)
+    setting_blk_corner2 = region_growing(x,y,l, img,tau)
+    setting_blk_corner1 = region_growing(Lx-x,y,l,img,tau)
+    setting_blk_corner3 = region_growing(x,Ly-y,l, img,tau)
+    setting_blk_corner4 = region_growing(Lx-x,Ly-y,l, img,tau)
+    if not (setting_blk_corner2 and setting_blk_corner1 and setting_blk_corner3 and setting_blk_corner4):
+        return mask
+    setting_blk = setting_blk_corner2 + setting_blk_corner1 + setting_blk_corner3 + setting_blk_corner4
+    for p in setting_blk:
+        mask[p[0],p[1]]= 0
+    return mask
+
 def Remove(img,tau,l,x,y):
     Ly = img.shape[0]
     Lx = img.shape[1]
-    setting_blk_corner1 = region_growing(x,y,l,img,tau)
-    setting_blk_corner2 = region_growing(Lx-x,y,l, img,tau)
+    mask = img.copy()
+    setting_blk_corner2 = region_growing(x,y,l, img,tau)
+    setting_blk_corner1 = region_growing(Lx-x,y,l,img,tau)
     setting_blk_corner3 = region_growing(x,Ly-y,l, img,tau)
     setting_blk_corner4 = region_growing(Lx-x,Ly-y,l, img,tau)
-    if not (setting_blk_corner1 and setting_blk_corner2 and setting_blk_corner3 and setting_blk_corner4):
-        return img
-    setting_blk = setting_blk_corner1 + setting_blk_corner2 + setting_blk_corner3 + setting_blk_corner4
+    if not (setting_blk_corner2 and setting_blk_corner1 and setting_blk_corner3 and setting_blk_corner4):
+        return mask
+    setting_blk = setting_blk_corner2 + setting_blk_corner1 + setting_blk_corner3 + setting_blk_corner4
     for p in setting_blk:
-        img[p[0],p[1]]= 255
-    return img
+        mask[p[0],p[1]]= 255
+    return mask
 
-#new_im_black = Remove(im_black,20,5,10,10)
-#viewimage(new_im_black)
-
-"""
-setting = region_growing(10,10,5,im_black,20)
-
-for p in setting:
-        im_black[p[0],p[1]]= 255
-
-viewimage(im_black)
-
-
-viewimage(img_gray)
-
-Ly = img_gray.shape[0]
-Lx = img_gray.shape[1]
-
-setting_blk_corner1 = region_growing(10,10,5, img_gray,120)
-setting_blk_corner2 = region_growing(Lx-10,10,5, img_gray,60)
-setting_blk_corner3 = region_growing(10,Ly-10,5, img_gray,60)
-setting_blk_corner4 = region_growing(Lx-10,Ly-10,5, img_gray,60)
-setting_blk = setting_blk_corner1 + setting_blk_corner2 + setting_blk_corner3 + setting_blk_corner4
-
-
-for p in setting_blk:
-        img_gray[p[0],p[1]]= 255
-
-
-
-viewimage(img_gray)
-
-
-"""
 
 

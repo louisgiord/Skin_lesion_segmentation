@@ -1,5 +1,4 @@
 import numpy as np
-import cv2
 
 #Compute DICE to compare the similarity of two masks
 #Comparison between our pipeline and the reference, between the segmentation method and the ground-truth segmentation
@@ -12,11 +11,11 @@ import cv2
 def JI (mask1,mask2):
     intersection = np.logical_and(mask1, mask2)
     union = np.logical_or(mask1, mask2)
-    JI = np.sum(intersection)/np.sum(union)
-    return JI   
+    ji = np.sum(intersection)/np.sum(union)
+    return ji   
 
 def dice(mask1,mask2):
-    JI = JI(mask1,mask2)
-    DICE = (2*JI)/(1+JI)
+    ji = JI(mask1,mask2)
+    DICE = (2*ji)/(1+ji)
     return DICE
 
