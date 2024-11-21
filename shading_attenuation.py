@@ -2,11 +2,11 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import scipy.optimize as opt
-from otsu_seg import view2images, viewimage
+from display_image import viewimgs, viewimage
 
 # Load the colored image 
 
-img_rgb = cv2.imread("images_test/img10.jpg")
+img_rgb = cv2.imread("images_test/img2.jpg")
 img_hsv = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2HSV)
 
 #viewimage(img_hsv)
@@ -67,25 +67,5 @@ x = 150
 y = 150
 ini_param = np.random.rand(6)
 
-
-"""
-result = opt.least_squares(error,ini_param,args=(img_hsv,l,x,y))
-
-opt_param = result.x
-min_error = result.cost
-
-print("Optimal parameters: ",opt_param)
-print("Minimal error: ",min_error)
-
-val_new = newVal(img_hsv,opt_param)
-print("new_val: ",val_new)
-
-new_img_hsv = img_hsv.copy()
-new_img_hsv[:,:,2] = val_new
-
-view2images(img_hsv,new_img_hsv)
-
-new_img_rgb = cv2.cvtColor(new_img_hsv, cv2.COLOR_HSV2RGB)
-
-view2images(img_rgb,new_img_rgb)
-"""
+viewimage(cv2.cvtColor(img_hsv, cv2.COLOR_HSV2RGB))
+new_img_rgb = cv2.cvtColor(shading_attenuation(img_hsv,l,x,y), cv2.COLOR_HSV2GBR)
