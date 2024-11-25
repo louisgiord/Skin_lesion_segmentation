@@ -5,15 +5,13 @@ from display_image import viewimgs, viewimage, mask_display
 from blk_removal import mask_remove
 from otsu_seg import otsu
 
-img = cv2.imread("images_test/img1.jpg")
+img = cv2.imread("images_test/img10.jpg")
 
-tau = 60
+tau = 150
 x,y = 20,20
 l = 5
 
-img1 = img[:,:,2] #red channel
-img2 = img[:,:,1] #green channel
-img3 = img[:,:,0] #blue channel
+img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Otsu advanced thresholding
 
@@ -42,16 +40,7 @@ def apply_threshold_with_mask(img, mask, thresh, maxval, type):
 
 def otsu_level (img,tau,l,x,y):
     mask = double_mask(img,tau,l,x,y)
-    viewimage(mask*150)
     tresh = otsu(img,mask)
     print(tresh)
     new_img = mask_display(img,mask,tresh)
     return new_img
-
-#viewimage(double_mask(img2,tau,l,x,y)*255)
-new_img = otsu_level(img2,tau,l,x,y)
-viewimage(new_img)
-mask = mask_remove(img2,tau,l,x,y)
-tresh = otsu(img1,mask)
-im_= mask_display(img1,mask,tresh)
-viewimage(cv2.bitwise_or(new_img,im_)) 
