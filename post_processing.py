@@ -3,6 +3,13 @@ import sys
 import os
 import cv2
 
+sys.path.append(os.path.abspath('../config'))
+
+import display_image, DICE
+
+sys.path.append(os.path.abspath('../seg'))
+
+import ostsu_seg as os
 
 
 #load images 
@@ -55,4 +62,16 @@ def max_struct_element1(img,mask):
             dice_max = dice_val
             i_max = i
     return i_max
+
+print("The best structuring element for the first image is: ", max_struct_element1(img1, mask1))
+print("The best structuring element for the second image is: ", max_struct_element1(img2, mask2))
+print("The best structuring element for the third image is: ", max_struct_element1(img3, mask3))
+print("The best structuring element for the fourth image is: ", max_struct_element1(img4, mask4))
+print("The best structuring element for the fifth image is: ", max_struct_element1(img5, mask5))
+print("The best structuring element for the sixth image is: ", max_struct_element1(img6, mask6))
+print("The best structuring element for the seventh image is: ", max_struct_element1(img7, mask7))
+print("The best structuring element for the eighth image is: ", max_struct_element1(img8, mask8))
+print("The best structuring element for the ninth image is: ", max_struct_element1(img9, mask9))
+print("The best structuring element for the tenth image is: ", max_struct_element1(img10, mask10))
+
 

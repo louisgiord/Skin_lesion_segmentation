@@ -1,12 +1,10 @@
 #implementing otsu segmentation
 #the goal of the algorithme is to distinghish the pixels of the image into two classes C0 and C1. 
 
-
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from blk_removal import mask_remove,Remove
-from display_image import viewimgs,viewimage
+
 
 #parameters
 N = 256 #number of gray levels
