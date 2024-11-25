@@ -144,4 +144,53 @@ def select_skin_region_bis(img, s=0.02, eta=1/4):
                 best_region = region
     return best_region
 
-# %%
+# %% 2. Computation of an intensity image for thresholding
+# on cherche les composentes médians des pixels de la région de peau sélectionnée 
+''' We choose the CIELAB because of its relative perceptual uniformity. 
+Large (small) differences between any two colors correspond approximately 
+to long (short) Euclidian distances between the colors in the three-dimensional CIELAB space.'''
+Rs = select_skin_region_bis(img_lab, s, eta)
+R_median = np.median(Rs, axis=(0, 1))
+
+#calul de l'image d'intensité
+def image_intensity(img_lab, R_median):
+    l, a, b = img_lab[:, :, 0], img_lab[:, :, 1], img_lab[:, :, 2]
+    l_s, a_s, b_s = R_median
+    intensity_image = np.sqrt((l - l_s) ** 2 + (a - a_s) ** 2 + (b - b_s) ** 2)
+    return intensity_image
+
+intensity_image = image_intensity(img_lab, R_median)
+ws = 0.01 * max(img.shape[:2])
+ws = int(ws)
+intensity_image_med = skimage.filters.median(intensity_image, footprint=np.ones((ws, ws)))
+
+#%% 3.  Threshold estimation
+#selectionne les pixels cross_diagonal de taille de région ws
+def selection_2(image_lab):
+    h, w = image_lab.shape[:2]
+    ws = 0.01 * w
+    ws = int(ws)
+    center_x, center_y = w // 2, h // 2
+    cross_diagonal = []
+    i = 0
+    for i in range(-h,h): #on parcourt lespixels verticaux
+        x, y = center_x, center_y + i*ws
+        if 0 <= x < w and 0 <= y < h:
+            cross_diagonal.append(image_lab[y, x])
+    for i in range(-w,w): #on parcourt les pixels horizontaux
+        x, y = center_x + i*ws, center_y
+        if 0 <= x < w and 0 <= y < h:
+            cross_diagonal.append(image_lab[y, x])
+    for i in range(-w, w): #on parcourt les pixels de la diagonale haut-gauche à bas-droite
+        x, y = center_x + i*ws, center_y + i*ws
+        if 0 <= x < w and 0 <= y < h:
+            cross_diagonal.append(image_lab[y, x])
+    for i in range(-w, w): #on parcourt les pixels de la diagonale haut-droite à bas-gauche
+        x, y = center_x - i*ws, center_y + i*ws
+        if 0 <= x < w and 0 <= y < h:
+            cross_diagonal.append(image_lab[y, x])
+    return cross_diagonal
+
+def sigma(image,t):
+    return var_between_class(image, t)
+
