@@ -125,3 +125,5 @@ plt.title('Inpainted Image')
 #plt.title('Smoothed Image')
 
 plt.show()
+
+# %%

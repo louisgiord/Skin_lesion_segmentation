@@ -1,18 +1,16 @@
 #implementing otsu segmentation
 #the goal of the algorithme is to distinghish the pixels of the image into two classes C0 and C1. 
 
-
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from blk_removal import mask_remove
-from display_image import viewimgs,viewimage
+
 
 #parameters
 N = 256 #number of gray levels
-tau = 60 
-x,y = 20,20
-l=5
+tau = 100
+x,y = 10,10
+l=2
 
 
 def plot_norm_hist(img):
@@ -72,14 +70,5 @@ def otsu(img,mask):
             tresh = i
     return tresh
 
-img = cv2.imread('images_test/img1.jpg')
-img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-mask = mask_remove(img,tau,l,x,y)
-tresh = otsu(img,mask)
-tresh1 = otsu(img,None)
-print(f"threshold: {tresh}")
-print(f"threshold1: {tresh1}")
-ret,mask1 = cv2.threshold(img,tresh,255,cv2.THRESH_BINARY)
-ret,mask2 = cv2.threshold(img,tresh1,255,cv2.THRESH_BINARY)
-viewimgs(mask1,mask2)
+
 

@@ -27,3 +27,15 @@ def viewimage(img):
     cv2.imshow('Display', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+def mask_display(img,mask,tresh):
+    result = cv2.threshold(img,tresh,255,cv2.THRESH_BINARY_INV)[1]
+    if mask is None:
+        return result
+    else:
+        for i in range (img.shape[0]):
+            for j in range (img.shape[1]):
+                if mask[i,j] == 0:
+                    result[i,j] = 0
+    return result
+
