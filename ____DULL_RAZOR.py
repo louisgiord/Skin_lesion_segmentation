@@ -14,8 +14,8 @@ from skimage.restoration import inpaint
 image_rgb = skio.imread('images_test/img19.jpg')
 
 #%% split en couleurs 
-image_red, image_green, image_blue = cv2.split(image_rgb)
-
+imgage_med = skimage.filters.median(image_rgb)
+image_red, image_green, image_blue = cv2.split(imgage_med)
 #%% Définir les éléments structurants - on peut changer les valeurs pour avoir un meilleur résultat
 kernel_horizontal = morpho.rectangle(1, 15)
 
@@ -48,8 +48,9 @@ def morphological_closing(image, kernel):
     closed_vertical = morphological_closing(image, kernel_vertical)
     return np.maximum(np.maximum(closed_horizontal, closed_diagonal), closed_vertical)
 """
-def morphologie(image_rgb, kernel):
+def morphologie(image_col, kernel):
     #closed = morpho.closing(image_rgb, kernel)
+    image_rdg = skimage.filters.median(image_col)
     image_red, image_green, image_blue = cv2.split(image_rgb)
     closed_red = morphological_closing(image_red, kernel)
     closed_green = morphological_closing(image_green, kernel)
