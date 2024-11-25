@@ -132,21 +132,16 @@ def region_growing(x,y, L, img, tau):
     mark = set()  # Utilisation d'un set pour le marquage
     waiting = deque()  # Utilisation de deque pour waiting
     coordinates = []
-    #print("size of S", len(S[1]))
+   
     if S[0]:
         waiting.extend(S[1])  # Création d'une copie indépendante de S[1]
         coordinates.extend(S[1])
-        #print("size of waiting", len(waiting))
-        #print("size of coordinates", len(coordinates))
         for p in S[1]:
             mark.add((p[0], p[1]))
         count = 0
         while waiting and count < 100000:
-            tup = waiting.popleft()  # Retire le premier élément efficacement
-            #print("LISTE ATTENTE DEBUT BOUCLE", list(waiting))
+            tup = waiting.popleft()  
             j, i = tup  # Déballage pour plus de clarté
-            #print("pixel en cours de visite", j, ":", i)
-
             # Vérification des voisins
             voisins = [(j + 1, i), (j - 1, i), (j, i + 1), (j, i - 1),
                        (j + 1, i + 1), (j + 1, i - 1), (j - 1, i - 1), (j - 1, i + 1)]
@@ -156,12 +151,9 @@ def region_growing(x,y, L, img, tau):
                         mark.add((J, I))
                         waiting.append((J, I))
                         coordinates.append((J, I))
-                        #print(f"Ajouté à waiting: ({J}, {I})")
-                        #print(f"Ajouté à coordinates: ({J}, {I})")
 
         return coordinates     
     else:
-        print("No black frame  in the picture")
         return False
 
 def mask_remove(img,tau,l,x,y):

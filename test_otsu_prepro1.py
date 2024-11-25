@@ -1,5 +1,5 @@
 from otsu_seg import otsu
-from post_processing import mask_remove
+from blk_removal import mask_remove
 from display_image import mask_display
 
 def display_otsu_prepro1(img, tau,l,x,y):
