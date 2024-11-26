@@ -194,3 +194,36 @@ def selection_2(image_lab):
 def sigma(image,t):
     return var_between_class(image, t)
 
+
+def phi(L_im, t):
+    phi = []
+    for i in range(len(L_im)):
+        phi.append(sigma(L_im[i], t))
+    #calcul of the scaled Euclidian norm:
+    phi = len(L_im)*np.linalg.norm(phi)
+    return phi
+
+# calcul threshold_h 1er seuil
+def threshold_h(image, R_median):
+    th = sigma(image_intensity(image, R_median),0)
+    for i in range(256):
+        s1 = sigma(image_intensity(image, R_median), i)/phi([image_intensity(image, R_median), selection_2(img_lab)], i)
+        s2 = sigma(selection_2(img_lab), i)/phi([image_intensity(image, R_median), selection_2(img_lab)], i)
+        if s1 + s2 > th:    
+            th = i
+    return th
+
+def threshold_s(img, beta):
+    Rs = select_skin_region_bis(img, s, eta)
+    nu1 = 0.05
+    nu2 = 0.5
+    im_i = image_intensity(Rs, R_median)
+    gamma_1 = np.percentile(im_i, nu1)
+    gamma_2 = np.percentile(im_i, nu2)
+    return gamma_2 + beta*(gamma_2 - gamma_1)
+
+def threshold_z(img, alpha, beta):
+    if threshold_s(img, R_median) > threshold_h(img, beta):
+        alpha = 1
+    th_z = alpha*threshold_h(img, R_median) + (1-alpha)*threshold_s(img, beta)
+    return th_z
