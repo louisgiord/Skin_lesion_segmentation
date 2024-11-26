@@ -153,16 +153,18 @@ Rs = select_skin_region_bis(img_lab, s, eta)
 R_median = np.median(Rs, axis=(0, 1))
 
 #calul de l'image d'intensité
-def image_intensity(img_lab, R_median):
+def image_intensity(img_lab, R_median, med):
     l, a, b = img_lab[:, :, 0], img_lab[:, :, 1], img_lab[:, :, 2]
     l_s, a_s, b_s = R_median
     intensity_image = np.sqrt((l - l_s) ** 2 + (a - a_s) ** 2 + (b - b_s) ** 2)
+    ws = 0.01 * max(img.shape[:2])
+    ws = int(ws)
+    if med == 1:
+        intensity_image_med = skimage.filters.median(intensity_image, footprint=np.ones((ws, ws)))
+        return intensity_image_med
     return intensity_image
 
 intensity_image = image_intensity(img_lab, R_median)
-ws = 0.01 * max(img.shape[:2])
-ws = int(ws)
-intensity_image_med = skimage.filters.median(intensity_image, footprint=np.ones((ws, ws)))
 
 #%% 3.  Threshold estimation
 #selectionne les pixels cross_diagonal de taille de région ws
@@ -227,3 +229,13 @@ def threshold_z(img, alpha, beta):
         alpha = 1
     th_z = alpha*threshold_h(img, R_median) + (1-alpha)*threshold_s(img, beta)
     return th_z
+
+
+# %% 4. Image segmentation
+# Apply the final threshold to the intensity image
+final_threshold = threshold_z(img, 0.5, 0.5)
+
+img_seg = otsu(image_intensity(img_lab, R_median, 1))
+
+# Display the segmented image
+viewimage(img_seg)
