@@ -129,15 +129,22 @@ def select_skin_region_bis(img, s=0.02, eta=1/4):
     min_ratio = float('inf')
     best_region = None
 #on itère sur les rectangles de taille s contenus dans les bordures de l'images à eta du plus petit côté
-    for i in range(np.floor(eta*min(center_img_x, center_img_y)*0.02)):
-        for j in range(np.floor(eta*min(center_img_x, center_img_y)*0.02)):
-            region = img[i*s_size:(i+1)*s_size, j*s_size:(j+1)*s_size]
-            mean_0 = np.mean(region[0])
-            mean_1 = np.mean(region[1])
-            mean_2 = np.mean(region[2])
-            ecart_type_0 = np.std(region[0])
-            ecart_type_1 = np.std(region[1])
-            ecart_type_2 = np.std(region[2])
+    for i in range(int(np.floor(eta*min(center_img_x, center_img_y)*0.02))):
+        for j in range(int(np.floor(eta*min(center_img_x, center_img_y)*0.02))):
+            start_x = i*s_size
+            end_x = (i+1)*s_size
+            start_y = j*s_size
+            end_y = (j+1)*s_size
+            if end_x > h or end_y > w: #vérifier que la région est bien contenue dans l'image
+                continue
+
+            region = img_lab[start_x:end_x, start_y:end_y]
+            mean_0 = np.mean(region[:,:,0])
+            mean_1 = np.mean(region[:,:,1])
+            mean_2 = np.mean(region[:,:,2])
+            ecart_type_0 = np.std(region[:,:,0])
+            ecart_type_1 = np.std(region[:,:,1])
+            ecart_type_2 = np.std(region[:,:,2])
             ratio = sum([ecart_type_0/mean_0, ecart_type_1/mean_1, ecart_type_2/mean_2])
             if ratio < min_ratio:
                 min_ratio = ratio
