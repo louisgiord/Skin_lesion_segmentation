@@ -447,32 +447,32 @@ def table_score (D):
 
     display(Markdown(table))
 
-    def table_score_lvl(D):
-        result1 = ["Image 1",D[0][0]]
-        result2 = ["Image 2",D[1][0]]
-        result3 = ["Image 3",D[2][0]]
-        result4 = ["Image 4",D[3][0]]
-        result5 = ["Image 5",D[4][0]]
-        result6 = ["Image 6",D[5][0]]
-        result7 = ["Image 7",D[6][0]]
-        result8 = ["Image 8",D[7][0]]
-        result9 = ["Image 9",D[8][0]]
-        result10 = ["Image 10",D[9][0]]
-        result11 = ["Image 11",D[10][0]]
-        result12 = ["Image 12",D[11][0]]
-        result13 = ["Image 13",D[12][0]]
-        result14 = ["Image 14",D[13][0]]
-        result15 = ["Image 15",D[14][0]]
-        result16 = ["Image 16",D[15][0]]
-        result17 = ["Image 17",D[16][0]]
-        result18 = ["Image 18",D[17][0]]
-        result19 = ["Image 19",D[18][0]]
-        result20 = ["Image 20",D[19][0]]
-        results = [result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12, result13, result14, result15, result16, result17, result18, result19, result20]
+def table_score_lvl(D):
+    result1 = ["Image 1",D[0][0]]
+    result2 = ["Image 2",D[1][0]]
+    result3 = ["Image 3",D[2][0]]
+    result4 = ["Image 4",D[3][0]]
+    result5 = ["Image 5",D[4][0]]
+    result6 = ["Image 6",D[5][0]]
+    result7 = ["Image 7",D[6][0]]
+    result8 = ["Image 8",D[7][0]]
+    result9 = ["Image 9",D[8][0]]
+    result10 = ["Image 10",D[9][0]]
+    result11 = ["Image 11",D[10][0]]
+    result12 = ["Image 12",D[11][0]]
+    result13 = ["Image 13",D[12][0]]
+    result14 = ["Image 14",D[13][0]]
+    result15 = ["Image 15",D[14][0]]
+    result16 = ["Image 16",D[15][0]]
+    result17 = ["Image 17",D[16][0]]
+    result18 = ["Image 18",D[17][0]]
+    result19 = ["Image 19",D[18][0]]
+    result20 = ["Image 20",D[19][0]]
+    results = [result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12, result13, result14, result15, result16, result17, result18, result19, result20]
 
-        table = "| Image | Otsu_level \n"
-        table += "| --- | --- \n"
-        for result in results:
-            table += "| " + " | ".join([str(r) for r in result]) + " |\n"
+    table = "| Image | Otsu_level \n"
+    table += "| --- | --- \n"
+    for result in results:
+        table += "| " + " | ".join([str(r) for r in result]) + " |\n"
 
-        display(Markdown(table))
+    display(Markdown(table))
