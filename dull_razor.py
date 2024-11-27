@@ -67,7 +67,29 @@ hair_mask = np.logical_or(np.logical_or(hair_mask_red, hair_mask_green), hair_ma
 # Remplacer les pixels de cheveux par les pixels non-cheveux les plus proches sur l'image originale
 inpainted_image = cv2.inpaint(image, hair_mask, 3, cv2.INPAINT_TELEA)
 
+def dull_razor(image):
+    image_bgr=cv2.imread(image,cv2.IMREAD_COLOR)
+    image = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB) # Conversion BGR vers RGB
+    smoothed_image = cv2.GaussianBlur(image, (5, 5), 0)
+    image_red, image_green, image_blue = cv2.split(smoothed_image)
+    closed_red = general_morphological_closing(image_red)
+    closed_green = general_morphological_closing(image_green)
+    closed_blue = general_morphological_closing(image_blue)
 
+# Calculer l'image masque de cheveux pour chaque bande de couleur
+    threshold = 30  # Définir un seuil prédéfini - peut être ajusté car gros poils persistants
+    hair_mask_red = np.abs(image_red - closed_red) > threshold
+    hair_mask_green = np.abs(image_green - closed_green) > threshold
+    hair_mask_blue = np.abs(image_blue - closed_blue) > threshold
+
+# Calculer l'image masque de cheveux finale
+    hair_mask = np.logical_or(np.logical_or(hair_mask_red, hair_mask_green), hair_mask_blue).astype(np.uint8)
+
+# Remplacer les pixels de cheveux par les pixels non-cheveux les plus proches sur l'image originale
+    inpainted_image = cv2.inpaint(image, hair_mask, 3, cv2.INPAINT_TELEA)
+    inpainted_image = cv2.cvtColor(inpainted_image, cv2.COLOR_BGR2RGB)
+    return inpainted_image
+'''
 plt.figure(figsize=(12, 12))
 plt.subplot(221)
 plt.imshow(image)
@@ -86,6 +108,6 @@ plt.imshow(smoothed_image)
 plt.title('Smoothed Image initiale')
 
 plt.show()
-
+'''
 
 # %%
