@@ -31,8 +31,6 @@ def proba_class_thresh(img,mask, t):
     proba_level = prob_gray_lvl(img,mask)
     #threshold is the gray level that separates the two classes
     p,q = np.sum(proba_level[:t]), np.sum(proba_level[t:])
-    #print(f"p: {p}, q: {q}")
-    #WARNING !!!! sometines value zero
     return p,q
 
 def mean_class_thresh(img,mask,t):
@@ -45,11 +43,15 @@ def mean_class_thresh(img,mask,t):
 def mean_C0(img,mask,t):
     w= proba_class_thresh(img,mask,t)[0]
     mu= mean_class_thresh(img,mask,t)
+    if w == 0:
+        return 0
     return mu/w
 
 def mean_C1(img,mask,t):
     mu = mean_class_thresh(img,mask,N) - mean_class_thresh(img,mask,t)
     w = proba_class_thresh(img,mask,t)[1]
+    if w == 0:
+        return 0
     return mu/w
 
 def var_between_class(img,mask,t):

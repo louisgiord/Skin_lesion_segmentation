@@ -196,7 +196,7 @@ dice12_full = dice(mask12, img12_full)
 # Image 13
 img13_simple = display_otsu_simple(img13)
 img13_pre1 = display_otsu_prepro1(img13, tau, l, x, y)
-img13_postpro1 = display_otsu_postpro1(img13, i, j, k)
+img13_postpro1 = display_otsu_postpro1(img13,i, j, k)
 img13_full = display_otsu_full(img13, tau, l, x, y, i, j, k)
 
 dice13 = dice(mask13, img13_simple)

@@ -4,43 +4,39 @@ import matplotlib.pyplot as plt
 from display_image import viewimgs, viewimage, mask_display
 from blk_removal import mask_remove
 from otsu_seg import otsu
+from DICE import dice
 
-img = cv2.imread("images_test/img10.jpg")
+img = cv2.imread("images_test/img1.jpg")
+mask = cv2.cvtColor(cv2.imread("images_test/msk1.png"), cv2.COLOR_BGR2GRAY)
 
 tau = 150
 x,y = 20,20
 l = 5
 
-img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Otsu advanced thresholding
 
-            
+def display_otsu_level(img,tau,l,x,y):
+    img1 = img[:,:,0]
+    img2 = img[:,:,1]
+    img3 = img[:,:,2]
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    mask = mask_remove(img_gray,tau,l,x,y)
+    mask1 = mask_remove(img1,tau,l,x,y)
+    mask2 = mask_remove(img2,tau,l,x,y)
+    mask3 = mask_remove(img3,tau,l,x,y)
+    tresh = otsu(img_gray,mask)
+    tresh1 = otsu(img1,mask1)
+    tresh2 = otsu(img2,mask2)
+    tresh3 = otsu(img3,mask3)
+    res = mask_display(img_gray,mask,tresh)
+    res1 = mask_display(img1,mask1,tresh1)
+    res2 = mask_display(img2,mask2,tresh2)
+    res3 = mask_display(img3,mask3,tresh3)
+    final = cv2.bitwise_or(res, cv2.bitwise_or(res1, cv2.bitwise_or(res2, res3)))
+    return final
 
-def double_mask(img,tau,l,x,y):
-    Lx = img.shape[1]
-    Ly = img.shape[0]
-    mask = mask_remove(img,tau,l,x,y)
-    tresh = otsu(img,mask)
-    new_mask = cv2.threshold(img, tresh, 1, cv2.THRESH_BINARY)[1]
-    return new_mask
-
-def apply_threshold_with_mask(img, mask, thresh, maxval, type):
-    # Appliquer le masque pour restreindre la région de l'image
-    masked_img = cv2.bitwise_and(img, img, mask=mask)
-    
-    # Appliquer le seuillage sur la région masquée de l'image
-    retval, thresholded_img = cv2.threshold(masked_img, thresh, maxval, type)
-    
-    # Combiner l'image seuillée avec les parties non masquées de l'image originale
-    result = cv2.bitwise_or(thresholded_img, cv2.bitwise_and(img, img, mask=cv2.bitwise_not(mask)))
-    
-    return result
-            
-
-def otsu_level (img,tau,l,x,y):
-    mask = double_mask(img,tau,l,x,y)
-    tresh = otsu(img,mask)
-    print(tresh)
-    new_img = mask_display(img,mask,tresh)
-    return new_img
+result = display_otsu_level(img,tau,l,x,y)
+val_dice = dice(result,mask)
+print("valeur dice :", val_dice)
+viewimage(result)
