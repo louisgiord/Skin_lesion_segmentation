@@ -131,10 +131,10 @@ def select_skin_region_bis(img_lab, s=0.02, eta=1/4):
 #on itère sur les rectangles de taille s contenus dans les bordures de l'images à eta du plus petit côté
     for i in range(0, h - s_size + 1, s_size):
         for j in range(0, w - s_size + 1, s_size):
-            start_x = i*s_size
-            end_x = (i+1)*s_size
-            start_y = j*s_size
-            end_y = (j+1)*s_size
+            start_x = i
+            end_x = i+s_size
+            start_y = j
+            end_y = j+s_size
             if end_x > h or end_y > w: #vérifier que la région est bien contenue dans l'image
                 continue
 
