@@ -308,6 +308,113 @@ D20 = [dice20, dice20_pp1, dice20_pp, dice20_full]
 
 D = [D1, D2, D3, D4, D5, D6,D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20]
 
+
+#Otsu_level 
+
+i = 20
+
+# Image 1
+img1_color = cv2.imread("images_test/img1.jpg")
+img1_lvl = display_otsu_level(img1_color,tau,l,x,y,i)
+dice1_lvl = dice(mask1, img1_lvl)
+
+# Image 2
+img2_color = cv2.imread("images_test/img2.jpg")
+img2_lvl = display_otsu_level(img2_color,tau,l,x,y,i)
+dice2_lvl = dice(mask2, img2_lvl)
+
+# Image 3
+img3_color = cv2.imread("images_test/img3.jpg")
+img3_lvl = display_otsu_level(img3_color,tau,l,x,y,i)
+dice3_lvl = dice(mask3, img3_lvl)
+
+# Image 4
+img4_color = cv2.imread("images_test/img4.jpg")
+img4_lvl = display_otsu_level(img4_color,tau,l,x,y,i)
+dice4_lvl = dice(mask4, img4_lvl)
+
+# Image 5
+img5_color = cv2.imread("images_test/img5.jpg")
+img5_lvl = display_otsu_level(img5_color,tau,l,x,y,i)
+dice5_lvl = dice(mask5, img5_lvl)
+
+# Image 6
+img6_color = cv2.imread("images_test/img6.jpg")
+img6_lvl = display_otsu_level(img6_color,tau,l,x,y,i)
+dice6_lvl = dice(mask6, img6_lvl)
+
+# Image 7
+img7_color = cv2.imread("images_test/img7.jpg")
+img7_lvl = display_otsu_level(img7_color,tau,l,x,y,i)
+dice7_lvl = dice(mask7, img7_lvl)
+
+# Image 8
+img8_color = cv2.imread("images_test/img8.jpg")
+img8_lvl = display_otsu_level(img8_color,tau,l,x,y,i)
+dice8_lvl = dice(mask8, img8_lvl)
+
+# Image 9
+img9_color = cv2.imread("images_test/img9.jpg")
+img9_lvl = display_otsu_level(img9_color,tau,l,x,y,i)
+dice9_lvl = dice(mask9, img9_lvl)
+
+# Image 10
+img10_color = cv2.imread("images_test/img10.jpg")
+img10_lvl = display_otsu_level(img10_color,tau,l,x,y,i)
+dice10_lvl = dice(mask10, img10_lvl)
+
+# Image 11
+img11_color = cv2.imread("images_test/img11.jpg")
+img11_lvl = display_otsu_level(img11_color,tau,l,x,y,i)
+dice11_lvl = dice(mask11, img11_lvl)
+
+# Image 12
+img12_color = cv2.imread("images_test/img12.jpg")
+img12_lvl = display_otsu_level(img12_color,tau,l,x,y,i)
+dice12_lvl = dice(mask12, img12_lvl)
+
+# Image 13
+img13_color = cv2.imread("images_test/img13.jpg")
+img13_lvl = display_otsu_level(img13_color,tau,l,x,y,i)
+dice13_lvl = dice(mask13, img13_lvl)
+
+# Image 14
+img14_color = cv2.imread("images_test/img14.jpg")
+img14_lvl = display_otsu_level(img14_color,tau,l,x,y,i)
+dice14_lvl = dice(mask14, img14_lvl)
+
+# Image 15
+img15_color = cv2.imread("images_test/img15.jpg")
+img15_lvl = display_otsu_level(img15_color,tau,l,x,y,i)
+dice15_lvl = dice(mask15, img15_lvl)
+
+# Image 16
+img16_color = cv2.imread("images_test/img16.jpg")
+img16_lvl = display_otsu_level(img16_color,tau,l,x,y,i)
+dice16_lvl = dice(mask16, img16_lvl)
+
+# Image 17
+img17_color = cv2.imread("images_test/img17.jpg")
+img17_lvl = display_otsu_level(img17_color,tau,l,x,y,i)
+dice17_lvl = dice(mask17, img17_lvl)
+
+# Image 18
+img18_color = cv2.imread("images_test/img18.jpg")
+img18_lvl = display_otsu_level(img18_color,tau,l,x,y,i)
+dice18_lvl = dice(mask18, img18_lvl)
+
+# Image 19
+img19_color = cv2.imread("images_test/img19.jpg")
+img19_lvl = display_otsu_level(img19_color,tau,l,x,y,i)
+dice19_lvl = dice(mask19, img19_lvl)
+
+# Image 20
+img20_color = cv2.imread("images_test/img20.jpg")
+img20_lvl = display_otsu_level(img20_color,tau,l,x,y,i)
+dice20_lvl = dice(mask20, img20_lvl)
+
+D_lvl = [[dice1_lvl], [dice2_lvl], [dice3_lvl], [dice4_lvl], [dice5_lvl], [dice6_lvl], [dice7_lvl], [dice8_lvl], [dice9_lvl], [dice10_lvl], [dice11_lvl], [dice12_lvl], [dice13_lvl], [dice14_lvl], [dice15_lvl], [dice16_lvl], [dice17_lvl], [dice18_lvl], [dice19_lvl], [dice20_lvl]]
+
 def table_score (D):
     result1 = ["Image 1",D[0][0], D[0][1], D[0][2],D[0][3]]
     result2 = ["Image 2",D[1][0], D[1][1], D[1][2],D[1][3]]
@@ -339,3 +446,33 @@ def table_score (D):
         table += "| " + " | ".join([str(r) for r in result]) + " |\n"
 
     display(Markdown(table))
+
+    def table_score_lvl(D):
+        result1 = ["Image 1",D[0][0]]
+        result2 = ["Image 2",D[1][0]]
+        result3 = ["Image 3",D[2][0]]
+        result4 = ["Image 4",D[3][0]]
+        result5 = ["Image 5",D[4][0]]
+        result6 = ["Image 6",D[5][0]]
+        result7 = ["Image 7",D[6][0]]
+        result8 = ["Image 8",D[7][0]]
+        result9 = ["Image 9",D[8][0]]
+        result10 = ["Image 10",D[9][0]]
+        result11 = ["Image 11",D[10][0]]
+        result12 = ["Image 12",D[11][0]]
+        result13 = ["Image 13",D[12][0]]
+        result14 = ["Image 14",D[13][0]]
+        result15 = ["Image 15",D[14][0]]
+        result16 = ["Image 16",D[15][0]]
+        result17 = ["Image 17",D[16][0]]
+        result18 = ["Image 18",D[17][0]]
+        result19 = ["Image 19",D[18][0]]
+        result20 = ["Image 20",D[19][0]]
+        results = [result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12, result13, result14, result15, result16, result17, result18, result19, result20]
+
+        table = "| Image | Otsu_level \n"
+        table += "| --- | --- \n"
+        for result in results:
+            table += "| " + " | ".join([str(r) for r in result]) + " |\n"
+
+        display(Markdown(table))
