@@ -129,8 +129,8 @@ def select_skin_region_bis(img_lab, s=0.02, eta=1/4):
     min_ratio = float('inf')
     best_region = None
 #on itère sur les rectangles de taille s contenus dans les bordures de l'images à eta du plus petit côté
-    for i in range(int(np.floor(eta*min(center_img_x, center_img_y)*0.02))):
-        for j in range(int(np.floor(eta*min(center_img_x, center_img_y)*0.02))):
+    for i in range(0, h - s_size + 1, s_size):
+        for j in range(0, w - s_size + 1, s_size):
             start_x = i*s_size
             end_x = (i+1)*s_size
             start_y = j*s_size
