@@ -122,8 +122,8 @@ def select_skin_region(img, s=0.02, eta=1/4):
             best_region = region
     
     return best_region"""
-def select_skin_region_bis(img, s=0.02, eta=1/4):
-    h, w = img.shape[:2]
+def select_skin_region_bis(img_lab, s=0.02, eta=1/4):
+    h, w = img_lab.shape[:2]
     s_size = int(s * max(h, w))
     center_img_x, center_img_y = w//2, h//2
     min_ratio = float('inf')
