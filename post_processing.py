@@ -1,3 +1,5 @@
+#ensemble des fonctions du post-processing sans la fonction de recherche de la composante centrale
+
 import skimage.morphology as morph
 import cv2
 from DICE import dice 

@@ -1,3 +1,5 @@
+#Affiche le masque binaire de la segmentation pour le pipeline complet
+
 from otsu_seg import otsu
 from post_processing import overall, opening
 from display_image import mask_display

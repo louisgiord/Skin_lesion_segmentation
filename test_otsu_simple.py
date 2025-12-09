@@ -1,4 +1,5 @@
 # Test file to display segmentation with Otsu's method without pre or post post-processing
+
 from display_image import mask_display, viewimage
 from otsu_seg import otsu
 import cv2

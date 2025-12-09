@@ -1,3 +1,5 @@
+#Affiche le masque binaire de segmentation pour otsu + pre-processing 1
+
 from otsu_seg import otsu
 from blk_removal import mask_remove
 from display_image import mask_display

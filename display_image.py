@@ -1,3 +1,5 @@
+#Ensemble des fonctions permettant l'affichage des images (1, 2 ou 3 images)
+
 import numpy as np 
 import cv2 
 import matplotlib.pyplot as plt
