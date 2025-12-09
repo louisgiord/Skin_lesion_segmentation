@@ -1,9 +1,9 @@
 from collections import deque
 import numpy as np 
-from display_image import viewimage
+from src.utils.display_image import viewimage
 import cv2
 
-#test if the columns are only black pixels
+# Test if the columns are only black pixels
 
 def test_black_column(img,blk_tresh):
     Ly = img.shape[0] #number of lines
@@ -129,20 +129,20 @@ def get_coordinates_black_pixel(x,y,img,tau):
 def region_growing(x,y, L, img, tau):
     S = set_black(x,y, L, img, tau)
     Ly, Lx = img.shape
-    mark = set()  # Utilisation d'un set pour le marquage
-    waiting = deque()  # Utilisation de deque pour waiting
+    mark = set()  # Using a set for marking
+    waiting = deque()  # Using deque for waiting
     coordinates = []
    
     if S[0]:
-        waiting.extend(S[1])  # Création d'une copie indépendante de S[1]
+        waiting.extend(S[1])  # Creating an independent copy of S[1]
         coordinates.extend(S[1])
         for p in S[1]:
             mark.add((p[0], p[1]))
         count = 0
         while waiting and count < 100000:
             tup = waiting.popleft()  
-            j, i = tup  # Déballage pour plus de clarté
-            # Vérification des voisins
+            j, i = tup  # Unpacking for clarity
+            # Checking neighbors
             voisins = [(j + 1, i), (j - 1, i), (j, i + 1), (j, i - 1),
                        (j + 1, i + 1), (j + 1, i - 1), (j - 1, i - 1), (j - 1, i + 1)]
             for J, I in voisins:

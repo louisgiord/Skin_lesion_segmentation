@@ -1,4 +1,4 @@
-#Ensemble des fonctions permettant l'affichage des images (1, 2 ou 3 images)
+# Set of functions for displaying images (1, 2 or 3 images)
 
 import numpy as np 
 import cv2 
@@ -18,7 +18,7 @@ def viewimgs(img1, img2): #WARNING: img1 and img2 must have the same number of c
     
     # Plot the images
     plt.imshow(img_conc, cmap='gray' if len(img_conc.shape) == 2 else None)
-    plt.axis('off')  # Masquer les axes
+    plt.axis('off')  # Hide the axes
     plt.show()
 
 
@@ -39,13 +39,13 @@ def view3imgs(img1, img2, img3):  # WARNING: img1, img2, and img3 must have the 
     
     # Plot the images
     plt.imshow(img_conc, cmap='gray' if len(img_conc.shape) == 2 else None)
-    plt.axis('off')  # Masquer les axes
+    plt.axis('off')  # Hide the axes
     plt.show()
 
 
 def viewimage(img):
     if img is None:
-        print("Erreur : l'image n'a pas été chargée correctement.")
+        print("Error: the image was not loaded correctly.")
         return
     cv2.namedWindow('Display', cv2.WINDOW_NORMAL)
     cv2.imshow('Display', img)

@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 from IPython.display import display, Markdown
-from test_otsu_full import *
-from test_otsu_postpro1 import *
-from test_otsu_prepro1 import *
-from test_otsu_simple import *
-from DICE import *
-from display_image import *
+from tests.test_otsu_full import *
+from tests.test_otsu_postpro1 import *
+from tests.test_otsu_prepro1 import *
+from tests.test_otsu_simple import *
+from src.utils.DICE import *
+from src.utils.display_image import *
 
 
 # Parameters 
@@ -19,46 +19,46 @@ i,j,k= 30,3,10
 
 # Load the images
 
-img1 = cv2.cvtColor(cv2.imread("images_test/img1.jpg"), cv2.COLOR_BGR2GRAY)
-mask1 = cv2.cvtColor(cv2.imread("images_test/msk1.png"),cv2.COLOR_BGR2GRAY)
-img2 = cv2.cvtColor(cv2.imread("images_test/img2.jpg"), cv2.COLOR_BGR2GRAY)
-mask2 = cv2.cvtColor(cv2.imread("images_test/msk2.png"),cv2.COLOR_BGR2GRAY)
-img3 = cv2.cvtColor(cv2.imread("images_test/img3.jpg"), cv2.COLOR_BGR2GRAY)
-mask3 = cv2.cvtColor(cv2.imread("images_test/msk3.png"),cv2.COLOR_BGR2GRAY)
-img4 = cv2.cvtColor(cv2.imread("images_test/img4.jpg"), cv2.COLOR_BGR2GRAY)
-mask4 = cv2.cvtColor(cv2.imread("images_test/msk4.png"),cv2.COLOR_BGR2GRAY)
-img5 = cv2.cvtColor(cv2.imread("images_test/img5.jpg"), cv2.COLOR_BGR2GRAY)
-mask5 = cv2.cvtColor(cv2.imread("images_test/msk5.png"),cv2.COLOR_BGR2GRAY)
-img6 = cv2.cvtColor(cv2.imread("images_test/img6.jpg"), cv2.COLOR_BGR2GRAY)
-mask6 = cv2.cvtColor(cv2.imread("images_test/msk6.png"),cv2.COLOR_BGR2GRAY)
-img7 = cv2.cvtColor(cv2.imread("images_test/img7.jpg"), cv2.COLOR_BGR2GRAY)
-mask7 = cv2.cvtColor(cv2.imread("images_test/msk7.png"),cv2.COLOR_BGR2GRAY)
-img8 = cv2.cvtColor(cv2.imread("images_test/img8.jpg"), cv2.COLOR_BGR2GRAY)
-mask8 = cv2.cvtColor(cv2.imread("images_test/msk8.png"),cv2.COLOR_BGR2GRAY)
-img9 = cv2.cvtColor(cv2.imread("images_test/img9.jpg"), cv2.COLOR_BGR2GRAY)
-mask9 = cv2.cvtColor(cv2.imread("images_test/msk9.png"),cv2.COLOR_BGR2GRAY)
-img10 = cv2.cvtColor(cv2.imread("images_test/img10.jpg"), cv2.COLOR_BGR2GRAY)
-mask10 = cv2.cvtColor(cv2.imread("images_test/msk10.png"),cv2.COLOR_BGR2GRAY)
-img11 = cv2.cvtColor(cv2.imread("images_test/img11.jpg"), cv2.COLOR_BGR2GRAY)
-mask11 = cv2.cvtColor(cv2.imread("images_test/msk11.png"),cv2.COLOR_BGR2GRAY)
-img12 = cv2.cvtColor(cv2.imread("images_test/img12.jpg"), cv2.COLOR_BGR2GRAY)
-mask12 = cv2.cvtColor(cv2.imread("images_test/msk12.png"),cv2.COLOR_BGR2GRAY)
-img13 = cv2.cvtColor(cv2.imread("images_test/img13.jpg"), cv2.COLOR_BGR2GRAY)
-mask13 = cv2.cvtColor(cv2.imread("images_test/msk13.png"),cv2.COLOR_BGR2GRAY)
-img14 = cv2.cvtColor(cv2.imread("images_test/img14.jpg"), cv2.COLOR_BGR2GRAY)
-mask14 = cv2.cvtColor(cv2.imread("images_test/msk14.png"),cv2.COLOR_BGR2GRAY)
-img15 = cv2.cvtColor(cv2.imread("images_test/img15.jpg"), cv2.COLOR_BGR2GRAY)
-mask15 = cv2.cvtColor(cv2.imread("images_test/msk15.png"),cv2.COLOR_BGR2GRAY)
-img16 = cv2.cvtColor(cv2.imread("images_test/img16.jpg"), cv2.COLOR_BGR2GRAY)
-mask16 = cv2.cvtColor(cv2.imread("images_test/msk16.png"),cv2.COLOR_BGR2GRAY)
-img17 = cv2.cvtColor(cv2.imread("images_test/img17.jpg"), cv2.COLOR_BGR2GRAY)
-mask17 = cv2.cvtColor(cv2.imread("images_test/msk17.png"),cv2.COLOR_BGR2GRAY)
-img18 = cv2.cvtColor(cv2.imread("images_test/img18.jpg"), cv2.COLOR_BGR2GRAY)
-mask18 = cv2.cvtColor(cv2.imread("images_test/msk18.png"),cv2.COLOR_BGR2GRAY)
-img19 = cv2.cvtColor(cv2.imread("images_test/img19.jpg"), cv2.COLOR_BGR2GRAY)
-mask19 = cv2.cvtColor(cv2.imread("images_test/msk19.png"),cv2.COLOR_BGR2GRAY)
-img20 = cv2.cvtColor(cv2.imread("images_test/img20.jpg"), cv2.COLOR_BGR2GRAY)
-mask20 = cv2.cvtColor(cv2.imread("images_test/msk20.png"),cv2.COLOR_BGR2GRAY)
+img1 = cv2.cvtColor(cv2.imread("data/images_test/img1.jpg"), cv2.COLOR_BGR2GRAY)
+mask1 = cv2.cvtColor(cv2.imread("data/images_test/msk1.png"),cv2.COLOR_BGR2GRAY)
+img2 = cv2.cvtColor(cv2.imread("data/images_test/img2.jpg"), cv2.COLOR_BGR2GRAY)
+mask2 = cv2.cvtColor(cv2.imread("data/images_test/msk2.png"),cv2.COLOR_BGR2GRAY)
+img3 = cv2.cvtColor(cv2.imread("data/images_test/img3.jpg"), cv2.COLOR_BGR2GRAY)
+mask3 = cv2.cvtColor(cv2.imread("data/images_test/msk3.png"),cv2.COLOR_BGR2GRAY)
+img4 = cv2.cvtColor(cv2.imread("data/images_test/img4.jpg"), cv2.COLOR_BGR2GRAY)
+mask4 = cv2.cvtColor(cv2.imread("data/images_test/msk4.png"),cv2.COLOR_BGR2GRAY)
+img5 = cv2.cvtColor(cv2.imread("data/images_test/img5.jpg"), cv2.COLOR_BGR2GRAY)
+mask5 = cv2.cvtColor(cv2.imread("data/images_test/msk5.png"),cv2.COLOR_BGR2GRAY)
+img6 = cv2.cvtColor(cv2.imread("data/images_test/img6.jpg"), cv2.COLOR_BGR2GRAY)
+mask6 = cv2.cvtColor(cv2.imread("data/images_test/msk6.png"),cv2.COLOR_BGR2GRAY)
+img7 = cv2.cvtColor(cv2.imread("data/images_test/img7.jpg"), cv2.COLOR_BGR2GRAY)
+mask7 = cv2.cvtColor(cv2.imread("data/images_test/msk7.png"),cv2.COLOR_BGR2GRAY)
+img8 = cv2.cvtColor(cv2.imread("data/images_test/img8.jpg"), cv2.COLOR_BGR2GRAY)
+mask8 = cv2.cvtColor(cv2.imread("data/images_test/msk8.png"),cv2.COLOR_BGR2GRAY)
+img9 = cv2.cvtColor(cv2.imread("data/images_test/img9.jpg"), cv2.COLOR_BGR2GRAY)
+mask9 = cv2.cvtColor(cv2.imread("data/images_test/msk9.png"),cv2.COLOR_BGR2GRAY)
+img10 = cv2.cvtColor(cv2.imread("data/images_test/img10.jpg"), cv2.COLOR_BGR2GRAY)
+mask10 = cv2.cvtColor(cv2.imread("data/images_test/msk10.png"),cv2.COLOR_BGR2GRAY)
+img11 = cv2.cvtColor(cv2.imread("data/images_test/img11.jpg"), cv2.COLOR_BGR2GRAY)
+mask11 = cv2.cvtColor(cv2.imread("data/images_test/msk11.png"),cv2.COLOR_BGR2GRAY)
+img12 = cv2.cvtColor(cv2.imread("data/images_test/img12.jpg"), cv2.COLOR_BGR2GRAY)
+mask12 = cv2.cvtColor(cv2.imread("data/images_test/msk12.png"),cv2.COLOR_BGR2GRAY)
+img13 = cv2.cvtColor(cv2.imread("data/images_test/img13.jpg"), cv2.COLOR_BGR2GRAY)
+mask13 = cv2.cvtColor(cv2.imread("data/images_test/msk13.png"),cv2.COLOR_BGR2GRAY)
+img14 = cv2.cvtColor(cv2.imread("data/images_test/img14.jpg"), cv2.COLOR_BGR2GRAY)
+mask14 = cv2.cvtColor(cv2.imread("data/images_test/msk14.png"),cv2.COLOR_BGR2GRAY)
+img15 = cv2.cvtColor(cv2.imread("data/images_test/img15.jpg"), cv2.COLOR_BGR2GRAY)
+mask15 = cv2.cvtColor(cv2.imread("data/images_test/msk15.png"),cv2.COLOR_BGR2GRAY)
+img16 = cv2.cvtColor(cv2.imread("data/images_test/img16.jpg"), cv2.COLOR_BGR2GRAY)
+mask16 = cv2.cvtColor(cv2.imread("data/images_test/msk16.png"),cv2.COLOR_BGR2GRAY)
+img17 = cv2.cvtColor(cv2.imread("data/images_test/img17.jpg"), cv2.COLOR_BGR2GRAY)
+mask17 = cv2.cvtColor(cv2.imread("data/images_test/msk17.png"),cv2.COLOR_BGR2GRAY)
+img18 = cv2.cvtColor(cv2.imread("data/images_test/img18.jpg"), cv2.COLOR_BGR2GRAY)
+mask18 = cv2.cvtColor(cv2.imread("data/images_test/msk18.png"),cv2.COLOR_BGR2GRAY)
+img19 = cv2.cvtColor(cv2.imread("data/images_test/img19.jpg"), cv2.COLOR_BGR2GRAY)
+mask19 = cv2.cvtColor(cv2.imread("data/images_test/msk19.png"),cv2.COLOR_BGR2GRAY)
+img20 = cv2.cvtColor(cv2.imread("data/images_test/img20.jpg"), cv2.COLOR_BGR2GRAY)
+mask20 = cv2.cvtColor(cv2.imread("data/images_test/msk20.png"),cv2.COLOR_BGR2GRAY)
 
 
 # Image 1
@@ -314,102 +314,102 @@ D = [D1, D2, D3, D4, D5, D6,D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, 
 i = 20
 
 # Image 1
-img1_color = cv2.imread("images_test/img1.jpg")
+img1_color = cv2.imread("data/images_test/img1.jpg")
 img1_lvl = display_otsu_level(img1_color,tau,l,x,y,i)
 dice1_lvl = dice(mask1, img1_lvl)
 
 # Image 2
-img2_color = cv2.imread("images_test/img2.jpg")
+img2_color = cv2.imread("data/images_test/img2.jpg")
 img2_lvl = display_otsu_level(img2_color,tau,l,x,y,i)
 dice2_lvl = dice(mask2, img2_lvl)
 
 # Image 3
-img3_color = cv2.imread("images_test/img3.jpg")
+img3_color = cv2.imread("data/images_test/img3.jpg")
 img3_lvl = display_otsu_level(img3_color,tau,l,x,y,i)
 dice3_lvl = dice(mask3, img3_lvl)
 
 # Image 4
-img4_color = cv2.imread("images_test/img4.jpg")
+img4_color = cv2.imread("data/images_test/img4.jpg")
 img4_lvl = display_otsu_level(img4_color,tau,l,x,y,i)
 dice4_lvl = dice(mask4, img4_lvl)
 
 # Image 5
-img5_color = cv2.imread("images_test/img5.jpg")
+img5_color = cv2.imread("data/images_test/img5.jpg")
 img5_lvl = display_otsu_level(img5_color,tau,l,x,y,i)
 dice5_lvl = dice(mask5, img5_lvl)
 
 # Image 6
-img6_color = cv2.imread("images_test/img6.jpg")
+img6_color = cv2.imread("data/images_test/img6.jpg")
 img6_lvl = display_otsu_level(img6_color,tau,l,x,y,i)
 dice6_lvl = dice(mask6, img6_lvl)
 
 # Image 7
-img7_color = cv2.imread("images_test/img7.jpg")
+img7_color = cv2.imread("data/images_test/img7.jpg")
 img7_lvl = display_otsu_level(img7_color,tau,l,x,y,i)
 dice7_lvl = dice(mask7, img7_lvl)
 
 # Image 8
-img8_color = cv2.imread("images_test/img8.jpg")
+img8_color = cv2.imread("data/images_test/img8.jpg")
 img8_lvl = display_otsu_level(img8_color,tau,l,x,y,i)
 dice8_lvl = dice(mask8, img8_lvl)
 
 # Image 9
-img9_color = cv2.imread("images_test/img9.jpg")
+img9_color = cv2.imread("data/images_test/img9.jpg")
 img9_lvl = display_otsu_level(img9_color,tau,l,x,y,i)
 dice9_lvl = dice(mask9, img9_lvl)
 
 # Image 10
-img10_color = cv2.imread("images_test/img10.jpg")
+img10_color = cv2.imread("data/images_test/img10.jpg")
 img10_lvl = display_otsu_level(img10_color,tau,l,x,y,i)
 dice10_lvl = dice(mask10, img10_lvl)
 
 # Image 11
-img11_color = cv2.imread("images_test/img11.jpg")
+img11_color = cv2.imread("data/images_test/img11.jpg")
 img11_lvl = display_otsu_level(img11_color,tau,l,x,y,i)
 dice11_lvl = dice(mask11, img11_lvl)
 
 # Image 12
-img12_color = cv2.imread("images_test/img12.jpg")
+img12_color = cv2.imread("data/images_test/img12.jpg")
 img12_lvl = display_otsu_level(img12_color,tau,l,x,y,i)
 dice12_lvl = dice(mask12, img12_lvl)
 
 # Image 13
-img13_color = cv2.imread("images_test/img13.jpg")
+img13_color = cv2.imread("data/images_test/img13.jpg")
 img13_lvl = display_otsu_level(img13_color,tau,l,x,y,i)
 dice13_lvl = dice(mask13, img13_lvl)
 
 # Image 14
-img14_color = cv2.imread("images_test/img14.jpg")
+img14_color = cv2.imread("data/images_test/img14.jpg")
 img14_lvl = display_otsu_level(img14_color,tau,l,x,y,i)
 dice14_lvl = dice(mask14, img14_lvl)
 
 # Image 15
-img15_color = cv2.imread("images_test/img15.jpg")
+img15_color = cv2.imread("data/images_test/img15.jpg")
 img15_lvl = display_otsu_level(img15_color,tau,l,x,y,i)
 dice15_lvl = dice(mask15, img15_lvl)
 
 # Image 16
-img16_color = cv2.imread("images_test/img16.jpg")
+img16_color = cv2.imread("data/images_test/img16.jpg")
 img16_lvl = display_otsu_level(img16_color,tau,l,x,y,i)
 dice16_lvl = dice(mask16, img16_lvl)
 
 # Image 17
-img17_color = cv2.imread("images_test/img17.jpg")
+img17_color = cv2.imread("data/images_test/img17.jpg")
 img17_lvl = display_otsu_level(img17_color,tau,l,x,y,i)
 dice17_lvl = dice(mask17, img17_lvl)
 
 # Image 18
-img18_color = cv2.imread("images_test/img18.jpg")
+img18_color = cv2.imread("data/images_test/img18.jpg")
 img18_lvl = display_otsu_level(img18_color,tau,l,x,y,i)
 dice18_lvl = dice(mask18, img18_lvl)
 
 # Image 19
-img19_color = cv2.imread("images_test/img19.jpg")
+img19_color = cv2.imread("data/images_test/img19.jpg")
 img19_lvl = display_otsu_level(img19_color,tau,l,x,y,i)
 dice19_lvl = dice(mask19, img19_lvl)
 
 # Image 20
-img20_color = cv2.imread("images_test/img20.jpg")
+img20_color = cv2.imread("data/images_test/img20.jpg")
 img20_lvl = display_otsu_level(img20_color,tau,l,x,y,i)
 dice20_lvl = dice(mask20, img20_lvl)
 

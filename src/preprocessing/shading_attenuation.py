@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import scipy.optimize as opt
-from display_image import viewimgs, viewimage
+from src.utils.display_image import viewimgs, viewimage
 
 # Load the colored image 
 

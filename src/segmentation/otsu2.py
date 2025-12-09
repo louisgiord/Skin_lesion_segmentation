@@ -1,16 +1,16 @@
 import numpy as np 
 import cv2
 import matplotlib.pyplot as plt
-from display_image import viewimgs, viewimage, mask_display
-from blk_removal import mask_remove
-from otsu_seg import otsu
-from DICE import dice
-from find_central_component import find_largest_connected_component
-from post_processing import overall, opening
+from src.utils.display_image import viewimgs, viewimage, mask_display
+from src.preprocessing.blk_removal import mask_remove
+from src.segmentation.otsu_seg import otsu
+from src.utils.DICE import dice
+from src.postprocessing.find_central_component import find_largest_connected_component
+from src.postprocessing.post_processing import overall, opening
 from skimage import morphology as morph
 
-img = cv2.imread("images_test/img15.jpg")
-mask = cv2.cvtColor(cv2.imread("images_test/msk15.png"), cv2.COLOR_BGR2GRAY)
+img = cv2.imread("data/images_test/img15.jpg")
+mask = cv2.cvtColor(cv2.imread("data/images_test/msk15.png"), cv2.COLOR_BGR2GRAY)
 
 tau = 150
 x,y = 20,20

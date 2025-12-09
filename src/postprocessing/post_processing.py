@@ -1,8 +1,8 @@
-#ensemble des fonctions du post-processing sans la fonction de recherche de la composante centrale
+# Set of post-processing functions without the central component search function
 
 import skimage.morphology as morph
 import cv2
-from DICE import dice 
+from src.utils.DICE import dice 
 
 struct_element1 = morph.disk(3)
 

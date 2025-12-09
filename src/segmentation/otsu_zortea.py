@@ -1,4 +1,4 @@
-#%% bibliothèques
+#%% libraries
 import cv2
 import numpy as np
 import skimage
@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 N = 256  # Number of gray levels
 
 #%% Load the image
-img = cv2.imread("img1.jpg")
+img = cv2.imread("data/images_test/img1.jpg")
 
 # Transform the image to gray scale
 img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -89,17 +89,17 @@ def otsu(img):
             tresh = i
     return tresh
 
-#%% Debut Zortea 
+#%% Beginning of Zortea
 eta = 1/4
 img = cv2.imread("img1.jpg")
 L = max(img.shape[:2]) # Maximum dimension of the image
-s = 0.02 * L #taille étape
+s = 0.02 * L # step size
 
 # Convert the image to the CIELAB color space
 img_lab = color.rgb2lab(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-#idée : on va se déplacer sur l'image avec des rectanges de taille s, calculer ecart type et moyenne 
-#jusqu'à eta de la distance du plus petit côté de l'image
-# Select the skin region avec somme ratio ecart type/ moyenne minimal
+# Idea: move across the image with rectangles of size s, calculate standard deviation and mean
+# up to eta of the distance from the smallest side of the image
+# Select the skin region with minimal sum of standard deviation/mean ratio
 def select_skin_region_init(img_gray):
     return img_gray[50:150, 50:150]
 """
@@ -128,14 +128,14 @@ def select_skin_region_bis(img_lab, s=0.02, eta=1/4):
     center_img_x, center_img_y = w//2, h//2
     min_ratio = float('inf')
     best_region = None
-#on itère sur les rectangles de taille s contenus dans les bordures de l'images à eta du plus petit côté
+# Iterate over rectangles of size s contained in the image borders at eta from the smallest side
     for i in range(0, h - s_size + 1, s_size):
         for j in range(0, w - s_size + 1, s_size):
             start_x = i
             end_x = i+s_size
             start_y = j
             end_y = j+s_size
-            if end_x > h or end_y > w: #vérifier que la région est bien contenue dans l'image
+            if end_x > h or end_y > w: # Verify that the region is contained within the image
                 continue
 
             region = img_lab[start_x:end_x, start_y:end_y]
@@ -152,14 +152,14 @@ def select_skin_region_bis(img_lab, s=0.02, eta=1/4):
     return best_region
 
 # %% 2. Computation of an intensity image for thresholding
-# on cherche les composentes médians des pixels de la région de peau sélectionnée 
+# Search for the median components of the pixels in the selected skin region
 ''' We choose the CIELAB because of its relative perceptual uniformity. 
 Large (small) differences between any two colors correspond approximately 
 to long (short) Euclidian distances between the colors in the three-dimensional CIELAB space.'''
 Rs = select_skin_region_bis(img_lab, s, eta)
 R_median = np.median(Rs, axis=(0, 1))
 
-#calul de l'image d'intensité
+# Calculation of the intensity image
 def image_intensity(img_lab, R_median, med):
     l, a, b = img_lab[:, :, 0], img_lab[:, :, 1], img_lab[:, :, 2]
     l_s, a_s, b_s = R_median
@@ -174,7 +174,7 @@ def image_intensity(img_lab, R_median, med):
 intensity_image = image_intensity(img_lab, R_median)
 
 #%% 3.  Threshold estimation
-#selectionne les pixels cross_diagonal de taille de région ws
+# Select the cross_diagonal pixels with region size ws
 def selection_2(image_lab):
     h, w = image_lab.shape[:2]
     ws = 0.01 * w
@@ -182,19 +182,19 @@ def selection_2(image_lab):
     center_x, center_y = w // 2, h // 2
     cross_diagonal = []
     i = 0
-    for i in range(-h,h): #on parcourt lespixels verticaux
+    for i in range(-h,h): # Traverse vertical pixels
         x, y = center_x, center_y + i*ws
         if 0 <= x < w and 0 <= y < h:
             cross_diagonal.append(image_lab[y, x])
-    for i in range(-w,w): #on parcourt les pixels horizontaux
+    for i in range(-w,w): # Traverse horizontal pixels
         x, y = center_x + i*ws, center_y
         if 0 <= x < w and 0 <= y < h:
             cross_diagonal.append(image_lab[y, x])
-    for i in range(-w, w): #on parcourt les pixels de la diagonale haut-gauche à bas-droite
+    for i in range(-w, w): # Traverse pixels from top-left to bottom-right diagonal
         x, y = center_x + i*ws, center_y + i*ws
         if 0 <= x < w and 0 <= y < h:
             cross_diagonal.append(image_lab[y, x])
-    for i in range(-w, w): #on parcourt les pixels de la diagonale haut-droite à bas-gauche
+    for i in range(-w, w): # Traverse pixels from top-right to bottom-left diagonal
         x, y = center_x - i*ws, center_y + i*ws
         if 0 <= x < w and 0 <= y < h:
             cross_diagonal.append(image_lab[y, x])
@@ -208,11 +208,11 @@ def phi(L_im, t):
     phi = []
     for i in range(len(L_im)):
         phi.append(sigma(L_im[i], t))
-    #calcul of the scaled Euclidian norm:
+    # Calculation of the scaled Euclidean norm:
     phi = len(L_im)*np.linalg.norm(phi)
     return phi
 
-# calcul threshold_h 1er seuil
+# Calculate threshold_h first threshold
 def threshold_h(image, R_median):
     th = sigma(image_intensity(image, R_median),0)
     for i in range(256):
